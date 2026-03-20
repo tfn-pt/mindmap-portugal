@@ -1,0 +1,62 @@
+{
+  "ano": {
+    "source": "Derived Join Key",
+    "file_origin": "data/raw/sns_consultas.json | data/raw/sns_capic.json | data/raw/eurostat_hlth_sha11_hf_pt.json | data/raw/google_trends_saude_mental_pt.csv | data/raw/ine_icor_2023.csv | data/raw/InfoEscolas2024_Secundario_CH_DadosPorRegiao.xlsx",
+    "reliability_score": "Medium (Derived from official period fields)",
+    "last_updated": "2026-03-20"
+  },
+  "regiao": {
+    "source": "Derived Join Key",
+    "file_origin": "data/raw/sns_consultas.json | data/raw/InfoEscolas2024_Secundario_CH_DadosPorRegiao.xlsx",
+    "reliability_score": "Medium (Canonicalized from source-specific region labels)",
+    "last_updated": "2026-03-20"
+  },
+  "consultas_sns": {
+    "source": "Portal Transparencia SNS",
+    "file_origin": "data/raw/sns_consultas.json",
+    "reliability_score": "High (Official API/Report)",
+    "last_updated": "2026-03-20"
+  },
+  "capic_sns": {
+    "source": "Portal Transparencia SNS",
+    "file_origin": "data/raw/sns_capic.json",
+    "reliability_score": "High (Official API/Report)",
+    "last_updated": "2026-03-20"
+  },
+  "prevalencia_ine": {
+    "source": "INE",
+    "file_origin": "data/raw/ine_icor_2023.csv",
+    "reliability_score": "High (Official report export, stored locally as XLS-format file with .csv extension)",
+    "last_updated": "2026-03-20"
+  },
+  "ansiedade_2024_ine": {
+    "source": "INE/Destaque 2025",
+    "file_origin": "C:/Users/traba/PROG/MyModules/MindMap/data/raw/04DiaMSaúde_2025.pdf",
+    "reliability_score": "High (Official INE PDF highlight)",
+    "last_updated": "2026-03-20"
+  },
+  "ase_percent_min_educ": {
+    "source": "Ministerio da Educacao / InfoEscolas 2024",
+    "file_origin": "data/raw/InfoEscolas2024_Secundario_CH_DadosPorRegiao.xlsx",
+    "reliability_score": "High (Official workbook)",
+    "last_updated": "2026-03-20"
+  },
+  "retencao_min_educ": {
+    "source": "Ministerio da Educacao / InfoEscolas 2024",
+    "file_origin": "data/raw/InfoEscolas2024_Secundario_CH_DadosPorRegiao.xlsx",
+    "reliability_score": "High (Official workbook)",
+    "last_updated": "2026-03-20"
+  },
+  "google_interest_score": {
+    "source": "Google Trends",
+    "file_origin": "data/raw/google_trends_saude_mental_pt.csv",
+    "reliability_score": "Medium (Official platform export, then yearly aggregated and rescaled)",
+    "last_updated": "2026-03-20"
+  },
+  "spending_eurostat": {
+    "source": "Eurostat",
+    "file_origin": "data/raw/eurostat_hlth_sha11_hf_pt.json",
+    "reliability_score": "High (Official API/Report)",
+    "last_updated": "2026-03-20"
+  }
+}

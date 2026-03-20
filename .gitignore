@@ -1,0 +1,43 @@
+############################################
+# MindMap Portugal - Git hygiene & security #
+############################################
+
+# Secrets / local-only config
+.env
+.env.*
+!.env.example
+
+# Python bytecode / caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Logs
+*.log
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temp
+*.tmp
+
+# Data policy:
+# - raw data must NOT be committed
+# - processed artifacts ARE intended to be committed ("sealed")
+data/raw/
+
+# Explicit allow (documentation intent; not strictly required unless a broader ignore is added later)
+!data/processed/
+!src/

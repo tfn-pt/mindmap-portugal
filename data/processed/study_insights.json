@@ -1,0 +1,62 @@
+[
+  {
+    "facto": "Publicacao do estudo da ERS sobre acesso a cuidados de saude mental nos hospitais do SNS",
+    "valor": "Dezembro de 2023",
+    "fonte": "estudo_saude_mental_20_12_23.pdf",
+    "data_publicacao": "Dezembro de 2023"
+  },
+  {
+    "facto": "Oferta hospitalar de saude mental no SNS",
+    "valor": "43 hospitais com consultas de psiquiatria, 39 com consultas de psicologia, 33 com internamento e 22 com urgencias",
+    "fonte": "estudo_saude_mental_20_12_23.pdf",
+    "data_publicacao": "Dezembro de 2023"
+  },
+  {
+    "facto": "Cobertura estimada das Redes de Referenciacao Hospitalar",
+    "valor": "RRH de adultos: 74% da populacao a 30 minutos e 95% a 60 minutos; RRH da infancia e adolescencia: 71% a 30 minutos e 94% a 60 minutos",
+    "fonte": "estudo_saude_mental_20_12_23.pdf",
+    "data_publicacao": "Dezembro de 2023"
+  },
+  {
+    "facto": "Incumprimento dos tempos maximos de resposta garantidos nas consultas hospitalares de psiquiatria",
+    "valor": "No 1S2023 houve 21.786 primeiras consultas e 39% excederam o TMRG",
+    "fonte": "estudo_saude_mental_20_12_23.pdf",
+    "data_publicacao": "Dezembro de 2023"
+  },
+  {
+    "facto": "Equipas comunitarias de saude mental em operacao",
+    "valor": "66 equipas; 22 entidades sem qualquer equipa; 25 entidades com media de 2,6 equipas",
+    "fonte": "estudo_saude_mental_20_12_23.pdf",
+    "data_publicacao": "Dezembro de 2023"
+  },
+  {
+    "facto": "Evolucao da atividade hospitalar em saude mental entre 2018 e 2022",
+    "valor": "Consultas de psiquiatria +5% ao ano; consultas de psicologia +12% ao ano; internamentos -2% ao ano",
+    "fonte": "estudo_saude_mental_20_12_23.pdf",
+    "data_publicacao": "Dezembro de 2023"
+  },
+  {
+    "facto": "Publicacao do destaque do INE do Dia Mundial da Saude",
+    "valor": "4 de abril de 2025",
+    "fonte": "04DiaMSaúde_2025.pdf",
+    "data_publicacao": "4 de abril de 2025"
+  },
+  {
+    "facto": "Sintomas de ansiedade generalizada na populacao com 16 ou mais anos",
+    "valor": "Em 2024, 32,0% tinham sintomas de ansiedade generalizada e 10,4% tinham niveis mais graves",
+    "fonte": "04DiaMSaúde_2025.pdf",
+    "data_publicacao": "4 de abril de 2025"
+  },
+  {
+    "facto": "Limitacoes na realizacao de atividades habituais devido a problemas de saude",
+    "valor": "Atingiram 28,7% da populacao com 16 ou mais anos em 2024",
+    "fonte": "04DiaMSaúde_2025.pdf",
+    "data_publicacao": "4 de abril de 2025"
+  },
+  {
+    "facto": "Anos de vida saudavel aos 65 anos",
+    "valor": "Em 2022, 8,6 anos para homens e 7,3 anos para mulheres; abaixo das medias UE-27 de 8,9 e 9,2",
+    "fonte": "04DiaMSaúde_2025.pdf",
+    "data_publicacao": "4 de abril de 2025"
+  }
+]

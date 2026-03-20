@@ -1,0 +1,11 @@
+requests
+python-dotenv
+tenacity
+loguru
+pytrends
+pandas==2.2.*
+numpy
+pdfplumber
+pyarrow
+openpyxl
+xlrd
