@@ -36,7 +36,6 @@ Desktop.ini
 # Data policy:
 # - raw data must NOT be committed
 # - processed artifacts ARE intended to be committed ("sealed")
-data/raw/
 
 # Explicit allow (documentation intent; not strictly required unless a broader ignore is added later)
 !data/processed/
