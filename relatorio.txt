@@ -1,0 +1,61 @@
+O que já fizemos (A Fundação SOTA)
+Não nos limitámos a juntar tabelas. Construímos um ecossistema de dados inteligente e totalmente rastreável:
+
+Extração Avançada de PDFs (O "Cérebro" do Projeto):
+
+Usámos ferramentas de scraping para "minar" os dois documentos fundamentais: o Estudo da ERS (Dezembro 2023) e o Destaque do INE (Abril 2025).
+
+Retirámos 10 factos críticos (estão no study_insights.json) que dão o contexto que os números sozinhos não dão, como a taxa de 32% de sintomas de ansiedade na população e o facto de 66% das consultas estarem concentradas em Lisboa.
+
+Unificação de 5 Fontes Gigantes:
+
+Cruzámos SNS, INE, InfoEscolas (Ministério da Educação), Google Trends e Eurostat.
+
+Tudo isto foi consolidado num único ficheiro Parquet (40x10). Escolhemos Parquet em vez de CSV porque é a norma na engenharia de dados moderna: é muito mais rápido e leve para o Streamlit ler.
+
+Rastreabilidade Total (10/10 Lineage):
+
+Criámos um "Contrato de Verdade". Cada uma das 10 colunas de dados tem uma "etiqueta" de origem no ficheiro data_lineage.json. Sabemos o dia, a fonte e o ficheiro de onde veio cada número.
+
+Higiene de Código:
+
+Fizemos um fresh start na pasta processed. O que lá está é código limpo, auditado e pronto para o teu dashboard.
+
+🎯 Próximos Passos: Fase 2 (A Interface de Impacto)
+Agora a bola está do teu lado para o Streamlit. Para mantermos o respeito ao PRD e às práticas de excelência, aqui tens os passos elaborados:
+
+1. Implementação dos KPIs de "Choque"
+O que fazer: No topo do dashboard, cria três cartões principais.
+
+Dados: Usa a Prevalência do INE (os 1.07M de casos), os novos dados de Ansiedade de 2024 (32%) e o volume de Consultas do SNS.
+
+Toque SOTA: Cada cartão deve ter uma nota minúscula por baixo a dizer "Fonte: [Nome da Fonte]", lida automaticamente do nosso ficheiro de lineage.
+
+2. O Mapa de Calor dos "Desertos"
+O que fazer: Um gráfico ou mapa que compare o número de consultas por região com a meta da Ordem dos Psicólogos (1:5000).
+
+Objetivo: Pintar de vermelho escuro as zonas que estão longe da meta. É aqui que mostramos onde o sistema está a falhar.
+
+3. Cruzamento Saúde-Educação (O "Nexo Social")
+O que fazer: Este é o ponto mais inovador do PRD. Cria um gráfico que cruze a Ação Social Escolar (ASE) com o sucesso escolar e o acesso a consultas.
+
+Narrativa: Queremos mostrar que os miúdos com mais dificuldades económicas nas escolas são os mesmos que vivem em zonas com menos apoio psicológico.
+
+4. O "Radar Digital"
+O que fazer: Um gráfico de linhas comparando o interesse no Google Trends com as chamadas de crise para o CAPIC.
+
+Insight: Mostrar se os picos de ansiedade digital se traduzem em emergências reais semanas depois.
+
+5. Notas de Rodapé Éticas e Dinâmicas
+Importante: Usa os factos que extraímos dos PDFs para criar tooltips ou balões de texto.
+
+Ética: Mantém a nossa decisão de não usar mapas de suicídio. Em vez disso, usa o espaço para mostrar o aumento do consumo de antidepressivos (medicalização), que é um indicador muito mais rico e eticamente seguro.
+
+🚀 Código e Repositório
+Já preparei o terreno no GitHub: tfn-pt/mindmap-portugal. O .gitignore está configurado para não mandarmos lixo nem dados sensíveis para a nuvem.
+
+Simão, o "petróleo" já foi extraído e refinado. Agora precisamos que tu construas o motor que vai fazer isto brilhar. Qualquer dúvida sobre como puxar os dados do JSON de insights ou do Parquet, dá o toque.
+
+A Fase 2 está oficialmente aberta. Vamos a isto!
+
+Enviado via tfn-pt Data Pipeline.
