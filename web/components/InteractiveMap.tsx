@@ -113,6 +113,7 @@ export default function InteractiveMap({ activeYear }: InteractiveMapProps) {
   const [selectedRegion, setSelectedRegion] = useState<string>('PT17')
   const [zoomLevel, setZoomLevel] = useState<number>(1)
   const [viewMode, setViewMode] = useState<ViewMode>('map')
+  const [isZooming, setIsZooming] = useState<boolean>(false)
 
   // Tooltip
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null)
@@ -179,70 +180,36 @@ export default function InteractiveMap({ activeYear }: InteractiveMapProps) {
   const selected = regionData.find((r) => r.nutsId === selectedRegion) ?? regionData[0]
   const hovered = hoveredRegion ? regionData.find((r) => r.nutsId === hoveredRegion) : null
 
-  // ── Zoom: bounding-box–aligned transform ─────────────────────────────────
+  // O(1) lookup map — avoids O(n²) in the render loop
+  const regionLookup = useMemo(
+    () => new Map(regionData.map((r) => [r.nutsId, r])),
+    [regionData],
+  )
+
+  // ── Zoom: SVG-space camera transform ─────────────────────────────────────
   //
-  // Uses d3.geoPath().bounds(feature) to get the exact [[x0,y0],[x1,y1]] box
-  // of the clicked region in SVG user-space, then derives:
+  // Correct GIS camera model — three-step transform:
+  //   1. Move region centre to origin:  translate(-cx, -cy)
+  //   2. Scale:                         scale(s)
+  //   3. Move result to SVG centre:     translate(SVG_W/2, SVG_H/2)
   //
-  //   scale  = fit the box into 60% of SVG canvas (smaller axis wins)
-  //   tx, ty = translate so the box centre lands on the SVG canvas centre
-  //
-  // transformOrigin is set to the SVG canvas centre (SVG_W/2, SVG_H/2) so
-  // the <motion.g> scale expands symmetrically – no drift.
+  // Written as a single SVG transform string applied to <motion.g>.
+  // NO transformOrigin — that was the root cause of coordinate drift.
+  // NO separate x/y/scale animate props — those fight SVG coordinate space.
 
-  const zoom = useMemo(() => {
-    if (!selected || zoomLevel <= 1) {
-      return { x: 0, y: 0, scale: 1 }
-    }
-
-    const bounds = pathFn.bounds(selected.feature as unknown as GeoPermissibleObjects)
-    // bounds = [[x0, y0], [x1, y1]] in SVG user-space
-    const [[x0, y0], [x1, y1]] = bounds
-
-    if (!isFinite(x0) || !isFinite(y0) || !isFinite(x1) || !isFinite(y1)) {
-      return { x: 0, y: 0, scale: zoomLevel }
-    }
-
-    const bw = x1 - x0
-    const bh = y1 - y0
-
-    // Scale to fill 60% of the viewport; clamp within ZOOM bounds
-    const targetScale = clamp(
-      Math.min((SVG_W * 0.6) / bw, (SVG_H * 0.6) / bh),
-      ZOOM_MIN,
-      ZOOM_MAX,
-    )
-
-    // Centre of the bounding box in SVG user-space
-    const cx = (x0 + x1) / 2
-    const cy = (y0 + y1) / 2
-
-    // Translation needed so that scaled centre lands on SVG canvas centre.
-    // With transformOrigin at (SVG_W/2, SVG_H/2) the formula is:
-    //   tx = (SVG_W/2) - cx * scale
-    //   ty = (SVG_H/2) - cy * scale
-    const tx = SVG_W / 2 - cx * targetScale
-    const ty = SVG_H / 2 - cy * targetScale
-
-    return { x: tx, y: ty, scale: targetScale }
-  }, [pathFn, selected, zoomLevel])
+  // No click-to-zoom — map stays at full overview always
+  const zoomTransform = `translate(0 0) scale(1)`
 
   // ── Interactions ──────────────────────────────────────────────────────────
 
   const selectRegion = (nutsId: string) => {
-    if (nutsId === selectedRegion && zoomLevel > 1) {
-      // Clicking the already-selected region resets to full overview.
-      setZoomLevel(1)
-    } else {
-      setSelectedRegion(nutsId)
-      // Set zoomLevel > 1 to trigger bounding-box zoom in `zoom` useMemo.
-      // The exact scale is derived from the region bounds, not this number.
-      setZoomLevel(ZOOM_MAX)
-    }
+    setSelectedRegion(nutsId)
   }
 
   const nudgeZoom = (delta: number) => {
+    setIsZooming(true)
     setZoomLevel((prev) => clamp(prev + delta, ZOOM_MIN, ZOOM_MAX))
+    setTimeout(() => setIsZooming(false), 800)
   }
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -365,28 +332,24 @@ export default function InteractiveMap({ activeYear }: InteractiveMapProps) {
                   )}
                 </AnimatePresence>
 
-                {/* SVG map – stable, pinned container. All pan/zoom is handled
-                    exclusively via the <motion.g> transform so the SVG coordinate
-                    system stays clean and path hit-testing is always correct. */}
-                <div className="flex items-center justify-center">
+                {/* SVG map – fills the available panel area; viewBox keeps Portugal's
+                    proportions and SVG scales down to fit — no clipping. */}
+                <div className="absolute inset-0 flex items-center justify-center p-4">
                   <svg
                     viewBox={`0 0 ${SVG_W} ${SVG_H}`}
-                    className="h-[72vh] max-h-[680px] w-auto max-w-full"
+                    className="h-full w-full"
+                    style={{ maxHeight: '100%', maxWidth: '100%' }}
+                    shapeRendering="geometricPrecision"
                     role="img"
                     aria-label="Mapa de Portugal continental por regiões – consultas de Saúde Mental"
                   >
                     <motion.g
-                      animate={
-                        prefersReducedMotion
-                          ? { x: zoom.x, y: zoom.y, scale: zoom.scale }
-                          : { x: zoom.x, y: zoom.y, scale: zoom.scale }
-                      }
+                      animate={{ transform: zoomTransform }}
                       transition={
                         prefersReducedMotion
                           ? { duration: 0 }
                           : { duration: 0.75, ease: [0.22, 1, 0.36, 1] }
                       }
-                      style={{ transformOrigin: `${SVG_W / 2}px ${SVG_H / 2}px` }}
                     >
                       {regionData.map((region) => {
                         const isSelected = region.nutsId === selectedRegion
@@ -416,26 +379,41 @@ export default function InteractiveMap({ activeYear }: InteractiveMapProps) {
                               duration: prefersReducedMotion ? 0 : 0.55,
                               ease: [0.22, 1, 0.36, 1],
                             }}
-                            onClick={() => selectRegion(region.nutsId)}
-                            onMouseEnter={() => setHoveredRegion(region.nutsId)}
-                            onMouseLeave={() => setHoveredRegion(null)}
-                            onFocus={() => setHoveredRegion(region.nutsId)}
-                            onBlur={() => setHoveredRegion(null)}
-                            className="outline-none"
-                            tabIndex={0}
-                            role="button"
-                            aria-label={`${region.name} – ${region.perPeople ? formatInteger(Math.round(region.perPeople)) + ' consultas por 10 000 pessoas' : 'sem dados'}`}
                             style={{
-                              cursor: 'pointer',
-                              filter: isSelected
-                                ? 'drop-shadow(0 0 20px rgba(217,119,87,0.42))'
-                                : isHovered
-                                  ? 'drop-shadow(0 0 10px rgba(20,184,166,0.3))'
-                                  : 'none',
+                              pointerEvents: 'none',
+                              filter: isZooming
+                                ? 'none'
+                                : isSelected
+                                  ? 'drop-shadow(0 0 20px rgba(217,119,87,0.42))'
+                                  : isHovered
+                                    ? 'drop-shadow(0 0 10px rgba(20,184,166,0.3))'
+                                    : 'none',
                             }}
                           />
                         )
                       })}
+
+                      {/* Invisible hit-area layer — stable pointer events, unaffected by
+                          visual animations. Larger strokeWidth catches thin-border regions. */}
+                      {regionData.map((region) => (
+                        <path
+                          key={`hit-${region.nutsId}`}
+                          d={pathFn(region.feature as unknown as GeoPermissibleObjects) ?? ''}
+                          fill="transparent"
+                          stroke="transparent"
+                          strokeWidth={12}
+                          onClick={() => selectRegion(region.nutsId)}
+                          onMouseEnter={() => setHoveredRegion(region.nutsId)}
+                          onMouseLeave={() => setHoveredRegion(null)}
+                          onFocus={() => setHoveredRegion(region.nutsId)}
+                          onBlur={() => setHoveredRegion(null)}
+                          className="outline-none"
+                          tabIndex={0}
+                          role="button"
+                          aria-label={`${region.name} – ${region.perPeople ? formatInteger(Math.round(region.perPeople)) + ' consultas por 10 000 pessoas' : 'sem dados'}`}
+                          style={{ cursor: 'pointer' }}
+                        />
+                      ))}
                     </motion.g>
                   </svg>
                 </div>
