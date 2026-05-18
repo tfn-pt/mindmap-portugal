@@ -305,7 +305,7 @@ Universidade da Beira Interior · Licenciatura em Inteligência Artificial e Ci�
 | Membro | GitHub |
 |---|---|
 | Simão | [@simaonambi](https://github.com/simaonambi) |
-| Tiago | [@tfn-pt](https://github.com/tfn-pt)) |
+| Tiago | [@tfn-pt](https://github.com/tfn-pt) |
 
 
 ---
