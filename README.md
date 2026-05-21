@@ -11,7 +11,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org)
 [![License](https://img.shields.io/badge/licença-académica-f59e0b)](#)
 
-https://github.com/tfn-pt/mindmap-portugal/assets/demo/Screen_Recording_2026-05-18_at_15_02_20.mov
+https://github.com/user-attachments/assets/634d04d4-2e29-4758-b360-a6b5693d5cd3
 
 </div>
 
