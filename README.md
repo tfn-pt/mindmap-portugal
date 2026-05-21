@@ -19,7 +19,7 @@ https://github.com/tfn-pt/mindmap-portugal/assets/demo/Screen_Recording_2026-05-
 
 ## Sobre o Projeto
 
-O **MindMap Portugal** é um dashboard de análise de saúde mental em Portugal, desenvolvido no âmbito da Unidade Curricular de Extração e Transformação de Dados (ETD) da Universidade da Beira Interior.
+O **MindMap Portugal** é um dashboard de análise de saúde mental em Portugal, desenvolvido no âmbito da Unidade Curricular de Visualização de Dados da Universidade da Beira Interior.
 
 O projeto integra dados de **6 fontes oficiais** (SNS, INE, DGS, Eurostat, InfoEscolas, Google Trends), com rastreabilidade completa desde a ingestão bruta até à visualização final, e disponibiliza um frontend cinematic com mapas interativos e visualizações temporais.
 
