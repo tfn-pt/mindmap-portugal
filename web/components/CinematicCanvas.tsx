@@ -2,7 +2,8 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { useMemo, useState } from 'react'
-import { Activity, HeartPulse, LineChart, Map, Search, ShieldCheck } from 'lucide-react'
+import { Activity, Download, HeartPulse, LineChart, Map, Search, ShieldCheck, Users } from 'lucide-react'
+import AuthorsPanel from '@/components/AuthorsPanel'
 import CapacityBalanceChart from '@/components/CapacityBalanceChart'
 import DualTimeline from '@/components/DualTimeline'
 import InteractiveMap from '@/components/InteractiveMap'
@@ -17,6 +18,7 @@ const VIEWS = [
   { id: 'trends', label: 'Procuras no Google', icon: Search },
   { id: 'capacity', label: 'Capacidade do SNS', icon: ShieldCheck },
   { id: 'signals', label: 'Sinais nacionais', icon: Activity },
+  { id: 'authors', label: 'Autores', icon: Users },
 ] as const
 
 type ActiveView = (typeof VIEWS)[number]['id']
@@ -33,6 +35,8 @@ function ViewContent({ activeView, activeYear }: { activeView: ActiveView; activ
       return <CapacityBalanceChart activeYear={activeYear} />
     case 'signals':
       return <NationalSignalsChart activeYear={activeYear} />
+    case 'authors':
+      return <AuthorsPanel />
     default:
       return null
   }
@@ -90,9 +94,19 @@ export default function CinematicCanvas() {
                 <div className="text-[11px] uppercase tracking-[0.26em] text-white/40">Saude mental em Portugal</div>
                 <div className="mt-1 font-serif text-2xl text-white md:text-3xl">{activeLabel}</div>
               </div>
-              <p className="max-w-md text-right text-sm leading-6 text-white/58">
-                Uma leitura visual sobre consultas, procura por ajuda, pressao regional e capacidade de resposta do SNS.
-              </p>
+              <div className="flex items-center gap-4">
+                <a
+                  href="/data/dashboard_main.csv"
+                  download="mindmap_portugal_dados.csv"
+                  className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-white/58 transition-all duration-300 hover:scale-105 hover:border-[#14B8A6]/40 hover:text-white"
+                >
+                  <Download className="h-4 w-4" />
+                  Descarregar dados
+                </a>
+                <p className="max-w-md text-right text-sm leading-6 text-white/58">
+                  Uma leitura visual sobre consultas, procura por ajuda, pressao regional e capacidade de resposta do SNS.
+                </p>
+              </div>
             </div>
 
             <div className="relative min-h-0 flex-1 overflow-y-auto rounded-lg border border-white/10 bg-[rgba(16,18,24,0.76)] p-4">
